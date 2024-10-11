@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block title %}<title>{{ category.description }} - Blog</title>{% endblock %} 
+
+{% block metatags %}
+    <meta name="description" content="{{ category.description }}" />
+    <link rel="canonical" href="https://itshnyk.in.ua/posts/?category={{ category.slug }}" />
+    <meta property="og:title" content="{{ category.name }}" />
+    <meta property="og:description" content="{{ category.description }}" />
+    <meta property="og:url" content="https://itshnyk.in.ua/posts/?category={{ category.slug }}" />
+    <meta property="og:type" content="website" />    
+    {% if category.image %}
+    <meta property="og:image" content="https://itshnyk.in.ua/media/{{ category.image }}" />
+    {% else %}
+    <meta property="og:image" content="https://itshnyk.in.ua/static/img/image.jpg" />
+    {% endif %}
+{% endblock %} 
+
+{% block content %}
+<h1>{{ category.description }}</h1>
+
+<nav aria-label="breadcrumb">
+  <ul class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="/">Home</a> <span class="divider"></span>
+    </li>
+
+    <li class="breadcrumb-item">
+      <a href="/posts">Blog</a> <span class="divider"></span>
+    </li>    
+
+    <li class="breadcrumb-item active" aria-current="page">
+      {{ category.name }}
+    </li>
+  </ul>
+</nav>
+
+<div class="row g-3">
+  {% for post in page_obj %}
+  <div class="col-md-6 col-lg-3">
+      {% include 'includes/_card.html' %}
+  </div>
+  {% endfor %}
+
+  <nav class="mt-4" aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page=1">&laquo; First</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><a class="page-link">&laquo; First</a></li>
+        <li class="page-item disabled"><a class="page-link">Previous</a></li>
+      {% endif %}
+  
+      <li class="page-item active">
+        <a class="page-link" href="#">{{ page_obj.number }}</a>
+      </li>
+  
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><a class="page-link">Next</a></li>
+        <li class="page-item disabled"><a class="page-link">Last &raquo;</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+  
+</div>
+{% endblock %}

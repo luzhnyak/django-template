@@ -1,0 +1,34 @@
+{% extends 'layout.html' %} 
+
+{% block title %}<title>Blog</title>{% endblock %} 
+
+{% block metatags %}
+    <meta name="description" content="Blog" />
+    <link rel="canonical" href="https://itshnyk.in.ua/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Blog" />
+    <meta property="og:description" content="Blog" />
+    <meta property="og:url" content="https://itshnyk.in.ua/" />
+    <meta property="og:image" content="https://itshnyk.in.ua/static/img/image.png" />
+{% endblock %}
+
+{% block content %}
+<section>
+  <h1>Blog</h1>  
+  {% for category in categories %}
+    {% if category.posts.count != 0 %}
+    <a href="/posts/?category={{ category.slug }}">
+      <h2>{{ category.description }}</h2>
+    </a>
+    <div class="row mb-3 mt-3 g-3">
+    {% for post in category.posts.all|slice:":4" %}
+    <div class="col-md-6 col-lg-3">
+      {% include 'includes/_card.html' %}
+    </div>
+    {% endfor %}
+    </div>
+    {% endif %}
+  {% endfor %}
+  
+</section>
+{% endblock %}

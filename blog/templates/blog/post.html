@@ -1,0 +1,58 @@
+{% extends "layout.html" %} 
+
+{% block title %}<title>{{ post.title }} - Blog</title>{% endblock %}
+
+{% block metatags %}
+    <meta name="description" content="{{ post.anons }}" />    
+    <link rel="canonical" href="https://itshnyk.in.ua/posts/{{ post.slug }}" />
+    <meta property="og:title" content="{{ post.title }}" />
+    <meta property="og:description" content="{{ post.anons }}" />
+    <meta property="og:url" content="https://itshnyk.in.ua/posts/{{ post.slug }}" />
+    <meta property="og:type" content="article" />
+    {% if post.image %}
+    <meta property="og:image" content="https://itshnyk.in.ua/media/{{ post.image }}"/>
+    {% else %}
+    <meta property="og:image" content="https://itshnyk.in.ua/static/img/image.jpg" />
+    {% endif %}
+{% endblock %} 
+
+{% block content %}
+  <h1>{{ post.title }}</h1>
+
+  <nav aria-label="breadcrumb">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="/">Home</a> <span class="divider"></span>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="/posts">Blog</a> <span class="divider"></span>
+      </li>      
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ post.title }}
+      </li>
+    </ul>
+  </nav>
+
+  <article class="article-content">    
+    <p>{{ post.content|safe }}</p>
+    {% if post.image %}
+    <div class="container">
+      <img class="d-block mx-auto" src="/media/{{ post.image }}" alt="{{ post.title }}" />
+    </div>
+    {% endif %}
+    {% if post.youtube %}    
+    <div class="video">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ post.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    {% endif %} 
+    <div class="mt-4">      
+      {% for category in post.categories.all %}    
+      <a class="btn btn-outline-secondary btn-sm" href="/posts/?category={{ category.slug }}" role="button">{{ category.name }}</a>
+      {%endfor%}  
+    </div>    							
+  </article>
+{% endblock %} 
+
+{% block disqus %}
+{% include 'includes/_disqus.html' %}
+{% endblock %}

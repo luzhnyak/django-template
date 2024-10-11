@@ -1,2 +1,29 @@
 # django-template
 Django template
+
+## Створення віртуального середовища
+
+```
+python -m venv venv
+venv\scripts\activate
+```
+
+## Команди для встановлення і зберігання залежностей:
+
+```
+pip install -r requirements.txt
+pip freeze > requirements.txt
+```
+
+## Основні команди для розгортання проекту на Django:
+
+```
+python -m pip install Django
+django-admin startproject app .
+
+python manage.py startapp main
+python manage.py createsuperuser
+python manage.py makemigrations
+python manage.py migrate
+python manage.py collectstatic
+```
